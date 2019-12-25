@@ -1,0 +1,20 @@
+server:
+  port: 9000
+
+spring:
+  #数据库
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/vegetables?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=CTT
+    username: root
+    password: root
+    #连接池
+    hikari:
+      minimum-idle: 5                   #HikariCP在连接池中维护的最小空闲连接数
+      maximum-pool-size: 15             #配置最大池大小
+      auto-commit: true                 #t配置从池返回的连接的默认自动提交行为
+      idle-timeout: 30000               #是允许连接在连接池中空闲的最长时间
+      pool-name: DatebookHikariCP
+      max-lifetime: 120000              #是池中连接关闭后的最长生命周期
+      connection-timeout: 30000         #是客户端等待连接池连接的最大毫秒数
+      connection-test-query: SELECT 1
