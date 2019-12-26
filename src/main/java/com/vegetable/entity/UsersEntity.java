@@ -48,6 +48,12 @@ public class UsersEntity implements Serializable {
     private Integer userAge;
 
     /**
+     * 用户手机号
+     */
+    @Column(name = "user_phone")
+    private String userPhone;
+
+    /**
      * 用户账号
      */
     @Column(name = "user_account")
