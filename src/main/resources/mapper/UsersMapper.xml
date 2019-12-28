@@ -15,4 +15,11 @@
     <result column="user_state" jdbcType="INTEGER" property="userState" />
     <result column="user_permissions" jdbcType="INTEGER" property="userPermissions" />
   </resultMap>
+
+  <select id="selectUSer" resultMap="BaseResultMap">
+    select *
+    from users
+    where user_name like concat('%',#{name},'%')
+  </select>
+
 </mapper>

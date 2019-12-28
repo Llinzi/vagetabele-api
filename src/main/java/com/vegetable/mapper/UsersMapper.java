@@ -3,6 +3,8 @@ package com.vegetable.mapper;
 import com.vegetable.entity.UsersEntity;
 import tk.mybatis.mapper.common.Mapper;
 
+import java.util.List;
+
 /**
 * @ClassName : UsersMapper
 * @Description : 用户 mapper 接口
@@ -15,4 +17,7 @@ import tk.mybatis.mapper.common.Mapper;
  * 但复杂的 sql 还是得在 xml 里手写
  */
 public interface UsersMapper extends Mapper<UsersEntity> {
+
+    List<UsersEntity> selectUSer(String name);
+
 }
