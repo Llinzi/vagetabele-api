@@ -39,7 +39,7 @@ public class UsersEntity implements Serializable {
      * 用户性别(0为男,1为女)
      */
     @Column(name = "user_sex")
-    private String userSex;
+    private Integer userSex;
 
     /**
      * 用户年龄
