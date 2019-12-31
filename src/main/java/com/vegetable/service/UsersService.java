@@ -1,5 +1,6 @@
 package com.vegetable.service;
 
+import com.github.pagehelper.PageInfo;
 import com.vegetable.entity.UsersEntity;
 
 import java.util.List;
@@ -20,10 +21,10 @@ public interface UsersService{
     int addUser(UsersEntity usersEntity);
 
     /**
-     * 通过名字查询用户
-     * @param name 用户名字
+     * 查询满足条件的用户信息
+     * @param usersEntity 用户实体
      * @return 返回满足条件的用户
      */
-    List<UsersEntity> selectUSer(String name);
+    PageInfo<UsersEntity> selectUser(UsersEntity usersEntity);
 
 }

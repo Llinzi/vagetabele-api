@@ -18,6 +18,7 @@ import java.util.List;
  */
 public interface UsersMapper extends Mapper<UsersEntity> {
 
-    List<UsersEntity> selectUSer(String name);
+    //查询满足条件的用户信息
+    List<UsersEntity> selectUser(UsersEntity usersEntity);
 
 }

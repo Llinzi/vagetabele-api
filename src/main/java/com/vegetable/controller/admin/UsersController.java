@@ -1,5 +1,6 @@
 package com.vegetable.controller.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.vegetable.common.Result;
 import com.vegetable.entity.UsersEntity;
 import com.vegetable.service.UsersService;
@@ -39,17 +40,31 @@ public class UsersController {
 
     /**
      * 根据条件查询用户
-     * @param name 名字
+     * @param usersEntity 用户实体
      * @return 返回用户信息
      */
     @GetMapping(value = "/selectUser")
-    public Result selectUser(@RequestParam(value = "name")String name){
-        List<UsersEntity> userList = usersService.selectUSer(name);
-        if (userList.size() > 0 && userList !=null){
-            Map<String,Object> map = new HashMap<>();
-            map.put("dataList",userList);
-            return Result.ok(map);
+    public Result selectUser(UsersEntity usersEntity) {
+        try {
+            //查询满足条件的分页信息
+            PageInfo<UsersEntity> pageInfo = usersService.selectUser(usersEntity);
+            //从分页信息中获得用户信息
+            List<UsersEntity> list = pageInfo.getList();
+            //判断是否找到满足条件的信息
+            if (list.size() > 0 && list != null){
+                Map<String, Object> map = new HashMap<>();
+                //总页数
+                map.put("pages",pageInfo.getPages());
+                //总条数
+                map.put("total",pageInfo.getTotal());
+                //当前页
+                map.put("pageNum",pageInfo.getPageNum());
+                map.put("dataList",list);
+                return Result.ok(map);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        return Result.error("查询失败!");
+        return Result.ok("没有查询到满足条件的用户信息！");
     }
 }

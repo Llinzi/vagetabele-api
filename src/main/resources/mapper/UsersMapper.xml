@@ -16,10 +16,21 @@
     <result column="user_permissions" jdbcType="INTEGER" property="userPermissions" />
   </resultMap>
 
-  <select id="selectUSer" resultMap="BaseResultMap">
+  <!--查询满足条件的用户信息-->
+  <select id="selectUser" resultMap="BaseResultMap">
     select *
     from users
-    where user_name like concat('%',#{name},'%')
+    <where>
+      <if test="userName !=null and userName !=''">
+        user_name like concat('%',#{userName},'%')
+      </if>
+      <if test="userState !=-1 ">
+        and user_state = #{userState}
+      </if>
+      <if test="userPermissions !=-1 ">
+        and user_permissions = #{userPermissions}
+      </if>
+    </where>
   </select>
 
 </mapper>

@@ -1,5 +1,8 @@
 package com.vegetable.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.vegetable.entity.UsersEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +30,13 @@ public class UsersServiceImpl implements UsersService{
     }
 
     @Override
-    public List<UsersEntity> selectUSer(String name) {
-        return usersMapper.selectUSer(name);
+    public PageInfo<UsersEntity> selectUser(UsersEntity usersEntity) {
+        //设置分页信息
+        PageHelper.startPage(usersEntity.getCurrentPage(),usersEntity.getPageSize());
+        //查询满足条件的用户信息
+        List<UsersEntity> list = usersMapper.selectUser(usersEntity);
+        //返回分页信息
+        return new PageInfo<>(list);
     }
+
 }

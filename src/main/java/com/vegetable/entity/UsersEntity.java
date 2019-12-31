@@ -89,5 +89,15 @@ public class UsersEntity implements Serializable {
     @Column(name = "user_permissions")
     private Integer userPermissions;
 
+    /**
+     * 每页显示条数
+     */
+    private Integer pageSize;
+
+    /**
+     * 当前页
+     */
+    private Integer currentPage;
+
     private static final long serialVersionUID = 1L;
 }

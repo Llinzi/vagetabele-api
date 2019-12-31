@@ -18,5 +18,11 @@ spring:
       max-lifetime: 120000
       connection-timeout: 30000
       connection-test-query: SELECT 1
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml #配置.xml位置
+
+pagehelper:
+  helperDialect: mysql  #设置数据库
+  reasonable: true      #启用分页合理化参数
+  supportMethodsArguments: true
