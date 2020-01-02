@@ -67,4 +67,41 @@ public class UsersController {
         }
         return Result.ok("没有查询到满足条件的用户信息！");
     }
+
+    /**
+     * 根据 id 修改用户信息
+     * @param usersEntity 用户实体
+     * @return
+     */
+    @PostMapping(value = "/updateUser")
+    public Result updateUser(@RequestBody UsersEntity usersEntity){
+        try {
+            int user = usersService.updateUser(usersEntity);
+            if (user > 0){
+                return Result.ok("修改成功!");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.error("修改失败!");
+    }
+
+    /**
+     * 根据 id 删除用户信息
+     * @param id 用户编号
+     * @return
+     */
+    @PostMapping(value = "/deleteUser")
+    public Result deleteUser(@RequestParam(value = "id") Integer id){
+        try {
+            int user = usersService.deleteUser(id);
+            if (user > 0){
+                return Result.ok("删除成功！");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.error("删除失败!");
+    }
+
 }

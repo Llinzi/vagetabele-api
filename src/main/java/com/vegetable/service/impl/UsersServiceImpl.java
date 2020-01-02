@@ -39,4 +39,14 @@ public class UsersServiceImpl implements UsersService{
         return new PageInfo<>(list);
     }
 
+    @Override
+    public int updateUser(UsersEntity usersEntity) {
+        return usersMapper.updateByPrimaryKeySelective(usersEntity);
+    }
+
+    @Override
+    public int deleteUser(Integer id) {
+        return usersMapper.deleteByPrimaryKey(id);
+    }
+
 }

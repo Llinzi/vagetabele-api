@@ -27,4 +27,17 @@ public interface UsersService{
      */
     PageInfo<UsersEntity> selectUser(UsersEntity usersEntity);
 
+    /**
+     * 根据 id 修改用户信息
+     * @param usersEntity 用户实体
+     * @return 成功返回一条数据
+     */
+    int updateUser(UsersEntity usersEntity);
+
+    /**
+     * 根据 id 删除用户信息
+     * @param id 用户编号
+     * @return 成功返回一条数据
+     */
+    int deleteUser(Integer id);
 }
