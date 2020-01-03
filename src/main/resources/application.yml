@@ -21,6 +21,8 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml #配置.xml位置
+  configuration:
+    map-underscore-to-camel-case: true #开启字段命名驼峰转换，不然某些表的字段名找不到实体类的对应的属性会为 null
 
 pagehelper:
   helperDialect: mysql  #设置数据库
