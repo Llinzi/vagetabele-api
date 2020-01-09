@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vegetable.mapper.VegetableInfoMapper">
+  <resultMap id="BaseResultMap" type="com.vegetable.entity.VegetableInfoEntity">
+    <!--@mbg.generated generated on Thu Jan 09 10:55:09 CST 2020.-->
+    <!--@Table vegetable_info-->
+    <id column="v_id" jdbcType="VARCHAR" property="vId" />
+    <result column="v_name" jdbcType="VARCHAR" property="vName" />
+    <result column="v_nickName" jdbcType="VARCHAR" property="vNickname" />
+    <result column="eat_way" jdbcType="VARCHAR" property="eatWay" />
+    <result column="nutrients" jdbcType="VARCHAR" property="nutrients" />
+    <result column="main_value" jdbcType="VARCHAR" property="mainValue" />
+    <result column="plant_history" jdbcType="VARCHAR" property="plantHistory" />
+    <result column="characteristics" jdbcType="VARCHAR" property="characteristics" />
+    <result column="distribution" jdbcType="VARCHAR" property="distribution" />
+    <result column="varieties" jdbcType="VARCHAR" property="varieties" />
+    <result column="planting_way" jdbcType="VARCHAR" property="plantingWay" />
+    <result column="growing_environment" jdbcType="VARCHAR" property="growingEnvironment" />
+    <result column="growing_time" jdbcType="VARCHAR" property="growingTime" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Thu Jan 09 10:55:09 CST 2020.-->
+    v_id, v_name, v_nickName, eat_way, nutrients, main_value, plant_history, `characteristics`, 
+    distribution, varieties, planting_way, growing_environment, growing_time, type_id, 
+    image
+  </sql>
+
+  <!--查询满足条件的蔬菜信息-->
+  <select id="selectVegetable" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from vegetable_info
+    <where>
+      <if test="vName != null and vName != ''">
+        v_name like concat('%',#{vName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="nutrients != null and nutrients != ''">
+        and nutrients like concat('%',#{nutrients,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="typeId != null">
+        and type_id = #{typeId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+
+</mapper>
