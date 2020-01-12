@@ -18,7 +18,8 @@ public class VegetableInfoEntity implements Serializable {
      */
     @Id
     @Column(name = "v_id")
-    private String vId;
+    @GeneratedValue(generator = "JDBC")
+    private Integer vId;
 
     /**
      * 蔬菜名称

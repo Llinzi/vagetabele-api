@@ -48,6 +48,9 @@ public class UsersController {
         try {
             //查询满足条件的分页信息
             PageInfo<UsersEntity> pageInfo = usersService.selectUser(usersEntity);
+            if(pageInfo == null){
+                return Result.error("没有查询到相关信息");
+            }
             //从分页信息中获得用户信息
             List<UsersEntity> list = pageInfo.getList();
             //判断是否找到满足条件的信息
