@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vegetable.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.vegetable.entity.MenuEntity">
+    <!--@mbg.generated generated on Fri Jan 31 14:27:02 CST 2020.-->
+    <!--@Table menu-->
+    <id column="m_id" jdbcType="INTEGER" property="mId" />
+    <result column="m_name" jdbcType="VARCHAR" property="mName" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="step_id" jdbcType="INTEGER" property="stepId" />
+    <result column="food_material" jdbcType="VARCHAR" property="foodMaterial" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="collection_num" jdbcType="INTEGER" property="collectionNum" />
+    <result column="like_num" jdbcType="INTEGER" property="likeNum" />
+    <result column="discuss_num" jdbcType="INTEGER" property="discussNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Fri Jan 31 14:27:02 CST 2020.-->
+    m_id, m_name, user_id, step_id, food_material, `level`, `time`, image, create_time, 
+    collection_num, like_num, discuss_num
+  </sql>
+
+  <!--菜谱查询-->
+  <select id="selectMenu" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from menu
+    <where>
+        <if test="mName != null and mName != ''">
+          m_name like concat('%',#{mName,jdbcType=VARCHAR},'%')
+        </if>
+    </where>
+  </select>
+
+  <!--菜谱步骤添加-->
+  <insert id="insertSteps" parameterType="com.vegetable.entity.MenuEntity" useGeneratedKeys="true" keyProperty="mId">
+        insert into menu(m_id,step1,step2,step3,step4,step5,step6,step7,step8,step9,step10,step11,step12)
+        value (#{mId},#{step1},#{step2},#{step3},#{step4},#{step5},#{step6},#{step7},#{step8},#{step9},#{step10},#{step11},#{step12})
+  </insert>
+
+</mapper>

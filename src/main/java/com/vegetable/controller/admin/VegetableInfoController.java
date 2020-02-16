@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/vegetableInfo")
-public class vegetableInfoController {
+public class VegetableInfoController {
 
     @Autowired
     private VegetableInfoService vegetableInfoService;

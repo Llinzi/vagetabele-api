@@ -16,7 +16,7 @@ public interface VegetableInfoMapper extends Mapper<VegetableInfoEntity> {
     /**
      * 根据条件查询满足条件的蔬菜信息
      * @param vegetableInfoEntity 蔬菜信息实体
-     * @return 成功返回满足条件的蔬菜 数组
+     * @return 成功返回满足条件的蔬菜
      */
     List<VegetableInfoEntity> selectVegetable(VegetableInfoEntity vegetableInfoEntity);
 }

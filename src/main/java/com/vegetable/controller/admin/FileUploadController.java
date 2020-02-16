@@ -35,6 +35,11 @@ public class FileUploadController {
     private String vegetablePath = "E:/workspaces/images/vegetable/";
 
     /**
+     * 菜谱图片路径
+     */
+    private String menuPath = "E:/workspaces/images/menu/";
+
+    /**
      * 用户头像上传
      *
      * @param file
@@ -59,9 +64,27 @@ public class FileUploadController {
      * @return
      */
     @RequestMapping(value="/vegetableUpload")
-    public Result goodsUpload(@RequestParam("vegetablePhoto") MultipartFile file) {
+    public Result vegetableUpload(@RequestParam("vegetablePhoto") MultipartFile file) {
         try {
             Map<String, Object> map = this.uploadFile(vegetablePath, file);
+            if(map!=null && map.size() > 0) {
+                return Result.ok(map);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Result.error("上传图片失败！");
+    }
+
+    /**
+     * 菜谱图片上传
+     * @param file 上传的文件
+     * @return
+     */
+    @RequestMapping(value="/menuUpload")
+    public Result menuUpload(@RequestParam("menuPhoto") MultipartFile file) {
+        try {
+            Map<String, Object> map = this.uploadFile(menuPath, file);
             if(map!=null && map.size() > 0) {
                 return Result.ok(map);
             }
@@ -100,7 +123,7 @@ public class FileUploadController {
      * @return
      */
     @RequestMapping(value="/deleteVegetablePhoto")
-    public Result deleteGoodsPhoto(@RequestParam("vegetablePhoto") String vegetablePhoto) {
+    public Result deleteVegetablePhoto(@RequestParam("vegetablePhoto") String vegetablePhoto) {
         try {
             //从URL中获得商品图片的名字
             int indexOf = vegetablePhoto.lastIndexOf("/");
@@ -108,6 +131,29 @@ public class FileUploadController {
                 String fileName = vegetablePhoto.substring(indexOf + 1);
                 File file = new File(this.vegetablePath + fileName);
                 file.delete();
+                return Result.ok();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.error();
+    }
+
+    /**
+     * 删除菜谱图片
+     * @param menuPhoto 上传的蔬菜图片
+     * @return
+     */
+    @RequestMapping(value="/deleteMenuPhoto")
+    public Result deleteMenuPhoto(@RequestParam("menuPhoto") String menuPhoto) {
+        try {
+            //从URL中获得商品图片的名字
+            int indexOf = menuPhoto.lastIndexOf("/");
+            if(indexOf!=-1) {
+                String fileName = menuPhoto.substring(indexOf + 1);
+                File file = new File(this.menuPath + fileName);
+                file.delete();
+
                 return Result.ok();
             }
         } catch (Exception e) {
