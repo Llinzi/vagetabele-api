@@ -40,4 +40,11 @@ public interface UsersService{
      * @return 成功返回一条数据
      */
     int deleteUser(Integer id);
+
+    /**
+     * 通过 id 查询用户信息
+     * @param id 用户 id
+     * @return 成功返回用户信息
+     */
+    UsersEntity selectByPrimaryKey(Integer id);
 }

@@ -107,4 +107,23 @@ public class UsersController {
         return Result.error("删除失败!");
     }
 
+    /**
+     * 根据 id 查询用户信息
+     * @param userId 用户 id
+     * @return 成功返回用户信息
+     */
+    @GetMapping(value = "/selectByPrimaryKey")
+    public Result selectByPrimaryKey(@RequestParam(value = "userId") Integer userId){
+        try {
+            UsersEntity usersEntity = usersService.selectByPrimaryKey(userId);
+            if (usersEntity !=null){
+                Map<String,Object> map = new HashMap<>();
+                map.put("userData",usersEntity);
+                return Result.ok(map);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.error("没有查询到该用户!");
+    }
 }

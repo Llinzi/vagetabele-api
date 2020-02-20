@@ -48,6 +48,16 @@ public class MenuServiceImpl implements MenuService{
 
     @Override
     public int insertSteps(StepsEntity stepsEntity) {
-        return 0;
+        return menuMapper.insertSteps(stepsEntity);
+    }
+
+    @Override
+    public int updateSteps(StepsEntity stepsEntity) {
+        return menuMapper.updateSteps(stepsEntity);
+    }
+
+    @Override
+    public StepsEntity selectStepsByMId(Integer mId) {
+        return menuMapper.selectStepsByMId(mId);
     }
 }

@@ -27,4 +27,18 @@ public interface MenuMapper extends Mapper<MenuEntity> {
      * @return
      */
     int insertSteps(StepsEntity stepsEntity);
+
+    /**
+     * 菜谱步骤修改
+     * @param stepsEntity
+     * @return 成功返回一条数据
+     */
+    int updateSteps(StepsEntity stepsEntity);
+
+    /**
+     * 通过菜谱 id 查询步骤
+     * @param mId
+     * @return 成功返回菜谱步骤
+     */
+    StepsEntity selectStepsByMId(Integer mId);
 }

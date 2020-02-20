@@ -49,4 +49,9 @@ public class UsersServiceImpl implements UsersService{
         return usersMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public UsersEntity selectByPrimaryKey(Integer id) {
+        return usersMapper.selectByPrimaryKey(id);
+    }
+
 }

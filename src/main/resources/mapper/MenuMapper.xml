@@ -7,6 +7,7 @@
     <id column="m_id" jdbcType="INTEGER" property="mId" />
     <result column="m_name" jdbcType="VARCHAR" property="mName" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="step_id" jdbcType="INTEGER" property="stepId" />
     <result column="food_material" jdbcType="VARCHAR" property="foodMaterial" />
     <result column="level" jdbcType="INTEGER" property="level" />
@@ -19,7 +20,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated generated on Fri Jan 31 14:27:02 CST 2020.-->
-    m_id, m_name, user_id, step_id, food_material, `level`, `time`, image, create_time, 
+    m_id, m_name, user_id, user_name, step_id, food_material, `level`, `time`, image, create_time,
     collection_num, like_num, discuss_num
   </sql>
 
@@ -35,9 +36,58 @@
   </select>
 
   <!--菜谱步骤添加-->
-  <insert id="insertSteps" parameterType="com.vegetable.entity.MenuEntity" useGeneratedKeys="true" keyProperty="mId">
-        insert into menu(m_id,step1,step2,step3,step4,step5,step6,step7,step8,step9,step10,step11,step12)
+  <insert id="insertSteps" parameterType="com.vegetable.entity.StepsEntity" useGeneratedKeys="true" keyProperty="mId">
+        insert into steps(m_id,step1,step2,step3,step4,step5,step6,step7,step8,step9,step10,step11,step12)
         value (#{mId},#{step1},#{step2},#{step3},#{step4},#{step5},#{step6},#{step7},#{step8},#{step9},#{step10},#{step11},#{step12})
   </insert>
+
+  <!--步骤添加-->
+  <update id="updateSteps" parameterType="com.vegetable.entity.StepsEntity">
+    update steps
+    <if test="mId != null">
+      m_id = #{mId,jdbcType=INTEGER}
+    </if>
+    <if test="step1 != null and step1 != ''">
+      step1 = #{step1,jdbcType=VARCHAR}
+    </if>
+    <if test="step2 != null and step2 != ''">
+      step1 = #{step2,jdbcType=VARCHAR}
+    </if>
+    <if test="step3 != null and step3 != ''">
+      step1 = #{step3,jdbcType=VARCHAR}
+    </if>
+    <if test="step4 != null and step4 != ''">
+      step1 = #{step5,jdbcType=VARCHAR}
+    </if>
+    <if test="step6 != null and step6 != ''">
+      step1 = #{step6,jdbcType=VARCHAR}
+    </if>
+    <if test="step7 != null and step7 != ''">
+      step1 = #{step7,jdbcType=VARCHAR}
+    </if>
+    <if test="step8 != null and step8 != ''">
+      step1 = #{step8,jdbcType=VARCHAR}
+    </if>
+    <if test="step9 != null and step9 != ''">
+      step1 = #{step9,jdbcType=VARCHAR}
+    </if>
+    <if test="step10 != null and step10 != ''">
+      step1 = #{step1,jdbcType=VARCHAR}
+    </if>
+    <if test="step11 != null and step11 != ''">
+      step1 = #{step11,jdbcType=VARCHAR}
+    </if>
+    <if test="step12 != null and step12 != ''">
+      step1 = #{step1,jdbcType=VARCHAR}
+    </if>
+    where step_id = #{stepId,jdbcType=INTEGER}
+  </update>
+
+  <!--通过菜谱 id 查询步骤-->
+  <select id="selectStepsByMId" resultType="com.vegetable.entity.StepsEntity">
+    select step_id,m_id,step1,step2,step3,step4,step5,step6,step7,step8,step9,step10,step11,step12
+    from steps
+    where m_id = #{mId,jdbcType=INTEGER}
+  </select>
 
 </mapper>

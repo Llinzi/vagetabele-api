@@ -92,11 +92,13 @@ public class UsersEntity implements Serializable {
     /**
      * 每页显示条数
      */
+    @Transient
     private Integer pageSize;
 
     /**
      * 当前页
      */
+    @Transient
     private Integer currentPage;
 
     private static final long serialVersionUID = 1L;

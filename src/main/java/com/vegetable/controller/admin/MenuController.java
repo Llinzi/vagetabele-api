@@ -3,6 +3,7 @@ package com.vegetable.controller.admin;
 import com.github.pagehelper.PageInfo;
 import com.vegetable.common.Result;
 import com.vegetable.entity.MenuEntity;
+import com.vegetable.entity.StepsEntity;
 import com.vegetable.model.MenuModel;
 import com.vegetable.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -56,23 +58,55 @@ public class MenuController {
         return Result.error("没有查询到满足条件的菜谱");
     }
 
+    /**
+     * 菜谱添加
+     * @param menuModel 菜谱添加对象
+     * @return
+     */
     @PostMapping(value = "/insertMenu")
     public Result insertMenu(@RequestBody MenuModel menuModel){
         try{
             int steps = menuService.insertSteps(menuModel.getStepsEntity());
             if (steps > 0){
+                //得到步骤表的自增长id
                 Integer stepId = menuModel.getStepsEntity().getStepId();
                 System.out.println("步骤id为"+stepId);
+                //设置菜谱表的步骤id，然后添加菜谱
                 menuModel.getMenuEntity().setStepId(stepId);
                 int menu = menuService.insertMenu(menuModel.getMenuEntity());
+                //获取菜谱表的自增长id，然后修改步骤表的菜谱id
                 Integer mId = menuModel.getMenuEntity().getMId();
                 System.out.println("菜谱id为"+mId);
-
+                menuModel.getStepsEntity().setmId(mId);
+                menuModel.getStepsEntity().setStepId(stepId);
+                int updateSteps = menuService.updateSteps(menuModel.getStepsEntity());
+                System.out.println("添加成功");
+                return Result.ok("添加成功");
             }
         }catch (Exception e){
             e.printStackTrace();
         }
         return Result.error("添加失败!");
+    }
+
+    /**
+     * 通过菜谱 id 查询步骤
+     * @param mId 菜谱 id
+     * @return
+     */
+    @GetMapping(value = "/selectStepsByMId")
+    public Result selectStepsByMId(@RequestParam(value = "mId") Integer mId){
+        try {
+            StepsEntity stepsEntity = menuService.selectStepsByMId(mId);
+            if (stepsEntity != null){
+                Map<String,Object> map = new HashMap<>();
+                map.put("stepsData",stepsEntity);
+                return Result.ok(map);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.error("没有查询到改菜谱步骤!");
     }
 
 }

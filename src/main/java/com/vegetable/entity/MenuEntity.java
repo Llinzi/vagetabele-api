@@ -35,6 +35,12 @@ public class MenuEntity implements Serializable {
     private Integer userId;
 
     /**
+     * 发表用户名称
+     */
+    @Column(name = "user_name")
+    private String userName;
+
+    /**
      * 烹饪步骤id
      */
     @Column(name = "step_id")
