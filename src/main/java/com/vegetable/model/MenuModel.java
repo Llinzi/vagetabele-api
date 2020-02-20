@@ -14,4 +14,6 @@ import lombok.Data;
 public class MenuModel {
     private MenuEntity menuEntity;
     private StepsEntity stepsEntity;
+
+
 }
