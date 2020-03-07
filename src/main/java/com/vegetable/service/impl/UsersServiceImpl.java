@@ -54,4 +54,20 @@ public class UsersServiceImpl implements UsersService{
         return usersMapper.selectByPrimaryKey(id);
     }
 
+    @Override
+    public UsersEntity userLogin(String userPhone, String userPwd) {
+        return usersMapper.userLogin(userPhone,userPwd);
+    }
+
+    @Override
+    public UsersEntity selectPhone(String userPhone) {
+        return usersMapper.selectPhone(userPhone);
+    }
+
+    @Override
+    public int updatePwd(String userPhone, String pwd) {
+        return usersMapper.updatePwd(userPhone,pwd);
+    }
+
+
 }

@@ -37,4 +37,25 @@
     </where>
   </select>
 
+  <!--用户登录-->
+  <select id="userLogin" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from users
+    where user_phone = #{param1,jdbcType=VARCHAR} and user_pwd = #{param2,jdbcType=VARCHAR}
+  </select>
+
+  <!--查询手机号是否存在-->
+  <select id="selectPhone" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from users
+    where user_phone = #{userPhone,jdbcType=VARCHAR}
+  </select>
+
+  <!--根据手机号修改密码-->
+  <update id="updatePwd">
+    update users
+    set user_pwd = #{param2,jdbcType=VARCHAR}
+    where user_phone = #{param1,jdbcType=VARCHAR}
+  </update>
+
 </mapper>

@@ -20,6 +20,8 @@
         <tk.mybatis.version>2.1.5</tk.mybatis.version>
         <lombok.version>1.16.10</lombok.version>
         <pagehelper.version>1.2.13</pagehelper.version>
+        <fastjson.version>1.2.62</fastjson.version>
+        <httpclient.version>4.5.11</httpclient.version>
     </properties>
 
     <dependencies>
@@ -69,8 +71,36 @@
             <version>${pagehelper.version}</version>
         </dependency>
 
+        <!-- fastjson依赖 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
 
+        <!-- httpcliet依赖 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
 
+        <!-- redis依赖 -->
+        <!--Spring Boot 2.0中spring-boot-starter-data-redis默认使用Lettuce方式替代了Jedis。使用Jedis的话先排除掉Lettuce的依赖，然后手动引入Jedis的依赖。-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.lettuce</groupId>
+                    <artifactId>lettuce-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
