@@ -28,12 +28,16 @@
   </sql>
 
   <!--查询满足条件的蔬菜信息-->
-  <select id="selectVegetable" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"></include>
-    from vegetable_info
+  <select id="selectVegetable" resultType="com.vegetable.entity.VegetableInfoEntity">
+    select <include refid="Base_Column_List"></include>,t.t_name as typeName
+    from vegetable_info v
+    left join type t on v.type_id = t.t_id
     <where>
       <if test="vName != null and vName != ''">
         v_name like concat('%',#{vName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="vNickname != null and vNickname != ''">
+        and v_nickName like concat('%',#{vNickname,jdbcType=VARCHAR},'%')
       </if>
       <if test="nutrients != null and nutrients != ''">
         and nutrients like concat('%',#{nutrients,jdbcType=VARCHAR},'%')
@@ -42,6 +46,31 @@
         and type_id = #{typeId,jdbcType=INTEGER}
       </if>
     </where>
+  </select>
+
+  <!--查询类别-->
+  <select id="selectType" resultType="com.vegetable.entity.TypeEntity">
+    select t_id,t_name,remark
+    from type
+  </select>
+
+  <!--查询同类别蔬菜-->
+  <select id="selectByTypeId" resultType="com.vegetable.entity.VegetableInfoEntity">
+    select <include refid="Base_Column_List"></include>,t.t_name as typeName
+    from vegetable_info v
+    left join type t on v.type_id = t.t_id
+    where v.type_id = #{typeId,jdbcType=INTEGER}
+    order by rand()
+    limit 4
+  </select>
+
+  <!--随机推荐 12条数据-->
+  <select id="selectRand" resultType="com.vegetable.entity.VegetableInfoEntity">
+    select <include refid="Base_Column_List"></include>,t.t_name as typeName
+    from vegetable_info v
+    left join type t on v.type_id = t.t_id
+    order by rand()
+    limit 12
   </select>
 
 </mapper>

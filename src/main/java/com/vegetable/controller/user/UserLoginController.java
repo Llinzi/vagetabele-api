@@ -26,7 +26,7 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping(value = "/userLogin")
-public class userLoginController {
+public class UserLoginController {
 
     @Autowired
     private UsersService usersService;
@@ -49,7 +49,9 @@ public class userLoginController {
                 return Result.error("该用户不存在,请注册!");
             }else if (userPhone !=null && usersEntity == null){
                 return Result.error("密码错误");
-            }else if (usersEntity != null){
+            }else if(usersEntity.getUserState() == 0){
+                return Result.error("该用户已被禁用，请联系客服");
+            } else if (usersEntity != null){
                 Map<String,Object> map = new HashMap<>();
                 map.put("user",usersEntity);
                 return Result.ok(map);

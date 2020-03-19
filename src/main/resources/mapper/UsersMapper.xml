@@ -8,6 +8,7 @@
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
     <result column="user_age" jdbcType="INTEGER" property="userAge" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
     <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
     <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
     <result column="user_head" jdbcType="VARCHAR" property="userHead" />
@@ -17,7 +18,7 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-        user_id,user_name,user_sex,user_age,user_account,user_pwd,user_head,user_email,user_state,user_permissions
+        user_id,user_name,user_sex,user_age,user_phone,user_account,user_pwd,user_head,user_email,user_state,user_permissions
   </sql>
   <!--查询满足条件的用户信息-->
   <select id="selectUser" resultMap="BaseResultMap">

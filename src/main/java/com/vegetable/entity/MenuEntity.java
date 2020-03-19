@@ -77,21 +77,20 @@ public class MenuEntity implements Serializable {
     private Date createTime;
 
     /**
-     * 收藏数量
-     */
-    @Column(name = "collection_num")
-    private Integer collectionNum;
-
-    /**
      * 点赞数量
      */
     @Column(name = "like_num")
     private Integer likeNum;
 
     /**
+     * 收藏数量
+     */
+    private Integer collectionNum;
+
+
+    /**
      * 评论数量
      */
-    @Column(name = "discuss_num")
     private Integer discussNum;
 
     /**

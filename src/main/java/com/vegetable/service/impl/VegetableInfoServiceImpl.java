@@ -2,6 +2,7 @@ package com.vegetable.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.vegetable.entity.TypeEntity;
 import com.vegetable.entity.VegetableInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,20 @@ public class VegetableInfoServiceImpl implements VegetableInfoService{
         List<VegetableInfoEntity> list = vegetableInfoMapper.selectVegetable(vegetableInfoEntity);
         //返回分页信息
         return new PageInfo<>(list);
+    }
+
+    @Override
+    public List<TypeEntity> selectType() {
+        return vegetableInfoMapper.selectType();
+    }
+
+    @Override
+    public List<VegetableInfoEntity> selectByTypeId(Integer typeId) {
+        return vegetableInfoMapper.selectByTypeId(typeId);
+    }
+
+    @Override
+    public List<VegetableInfoEntity> selectRand() {
+        return vegetableInfoMapper.selectRand();
     }
 }

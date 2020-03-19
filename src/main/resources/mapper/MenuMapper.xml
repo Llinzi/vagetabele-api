@@ -14,20 +14,29 @@
     <result column="time" jdbcType="VARCHAR" property="time" />
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="create_time" jdbcType="DATE" property="createTime" />
-    <result column="collection_num" jdbcType="INTEGER" property="collectionNum" />
     <result column="like_num" jdbcType="INTEGER" property="likeNum" />
-    <result column="discuss_num" jdbcType="INTEGER" property="discussNum" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated generated on Fri Jan 31 14:27:02 CST 2020.-->
-    m_id, m_name, user_id, user_name, step_id, food_material, `level`, `time`, image, create_time,
-    collection_num, like_num, discuss_num
+    m_id, m_name, user_id, user_name, step_id, food_material, `level`, `time`, image, create_time,like_num
   </sql>
 
   <!--菜谱查询-->
-  <select id="selectMenu" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"></include>
-    from menu
+  <select id="selectMenu" resultType="com.vegetable.entity.MenuEntity">
+    SELECT A.*,B.discussNum
+    FROM
+    (
+    SELECT m.*,COUNT( c.menu_id ) collectionNum
+    FROM menu m
+    LEFT JOIN collection c ON m.m_id = c.menu_id
+    GROUP BY m.m_id
+    ) A
+    LEFT JOIN (
+    SELECT m.m_id,COUNT( d.menu_id ) discussNum
+    FROM menu m
+    LEFT JOIN discuss d ON m.m_id = d.menu_id
+    GROUP BY m.m_id
+    ) B ON A.m_id = B.m_id
     <where>
         <if test="mName != null and mName != ''">
           m_name like concat('%',#{mName,jdbcType=VARCHAR},'%')
@@ -41,45 +50,47 @@
         value (#{mId},#{step1},#{step2},#{step3},#{step4},#{step5},#{step6},#{step7},#{step8},#{step9},#{step10},#{step11},#{step12})
   </insert>
 
-  <!--步骤添加-->
+  <!--步骤修改-->
   <update id="updateSteps" parameterType="com.vegetable.entity.StepsEntity">
     update steps
+    <trim prefix="set" suffixOverrides=",">
     <if test="mId != null">
-      m_id = #{mId,jdbcType=INTEGER}
+      m_id = #{mId,jdbcType=INTEGER},
     </if>
     <if test="step1 != null and step1 != ''">
-      step1 = #{step1,jdbcType=VARCHAR}
+      step1 = #{step1,jdbcType=VARCHAR},
     </if>
     <if test="step2 != null and step2 != ''">
-      step1 = #{step2,jdbcType=VARCHAR}
+      step1 = #{step2,jdbcType=VARCHAR},
     </if>
     <if test="step3 != null and step3 != ''">
-      step1 = #{step3,jdbcType=VARCHAR}
+      step1 = #{step3,jdbcType=VARCHAR},
     </if>
     <if test="step4 != null and step4 != ''">
-      step1 = #{step5,jdbcType=VARCHAR}
+      step1 = #{step5,jdbcType=VARCHAR},
     </if>
     <if test="step6 != null and step6 != ''">
-      step1 = #{step6,jdbcType=VARCHAR}
+      step1 = #{step6,jdbcType=VARCHAR},
     </if>
     <if test="step7 != null and step7 != ''">
-      step1 = #{step7,jdbcType=VARCHAR}
+      step1 = #{step7,jdbcType=VARCHAR},
     </if>
     <if test="step8 != null and step8 != ''">
-      step1 = #{step8,jdbcType=VARCHAR}
+      step1 = #{step8,jdbcType=VARCHAR},
     </if>
     <if test="step9 != null and step9 != ''">
-      step1 = #{step9,jdbcType=VARCHAR}
+      step1 = #{step9,jdbcType=VARCHAR},
     </if>
     <if test="step10 != null and step10 != ''">
-      step1 = #{step1,jdbcType=VARCHAR}
+      step1 = #{step1,jdbcType=VARCHAR},
     </if>
     <if test="step11 != null and step11 != ''">
-      step1 = #{step11,jdbcType=VARCHAR}
+      step1 = #{step11,jdbcType=VARCHAR},
     </if>
     <if test="step12 != null and step12 != ''">
-      step1 = #{step1,jdbcType=VARCHAR}
+      step1 = #{step1,jdbcType=VARCHAR},
     </if>
+    </trim>
     where step_id = #{stepId,jdbcType=INTEGER}
   </update>
 
@@ -88,6 +99,71 @@
     select step_id,m_id,step1,step2,step3,step4,step5,step6,step7,step8,step9,step10,step11,step12
     from steps
     where m_id = #{mId,jdbcType=INTEGER}
+  </select>
+
+  <!--添加收藏信息-->
+  <insert id="insertCollection" parameterType="com.vegetable.entity.CollectionEntity">
+    insert into collection(user_id, menu_id, create_time)
+    value (#{userId,jdbcType=INTEGER},#{menuId,jdbcType=INTEGER},#{createTime})
+  </insert>
+
+  <!--通过用户 id 和 菜谱 id 查询用户是否收藏过该菜谱-->
+  <select id="selectCollection" resultType="com.vegetable.entity.CollectionEntity">
+    select collection_id, user_id, menu_id, create_time
+    from collection
+    where user_id = #{param1,jdbcType=INTEGER} and menu_id = #{param2,jdbcType=INTEGER}
+    limit 1
+  </select>
+
+  <!--点赞、收藏、评论数量加一-->
+  <update id="updateMenuNum" parameterType="integer">
+    update menu
+    <trim prefix="set" suffixOverrides=",">
+    <if test="param2 == 1">
+      collection_num = collection_num + 1,
+    </if>
+    <if test="param2 == 2">
+      like_num = like_num + 1,
+    </if>
+    <if test="param2 == 3">
+      discuss_num = discuss_num + 1,
+    </if>
+    </trim>
+    where m_id = #{param1,jdbcType=INTEGER}
+  </update>
+
+  <!--根据菜谱 id 查询评论-->
+  <select id="selectDiscuss" resultType="com.vegetable.entity.DiscussEntity">
+    select discuss_id,user_id,user_name,user_head,menu_id,content,discuss_time
+    from discuss
+    where menu_id = #{menuId,jdbcType=INTEGER}
+    order by discuss_time desc
+  </select>
+
+  <!--添加评论-->
+  <insert id="insertDiscuss" parameterType="com.vegetable.entity.DiscussEntity">
+    insert into discuss (user_id, user_name, user_head, menu_id, content, discuss_time)
+    value (#{userId,jdbcType=INTEGER},#{userName,jdbcType=VARCHAR},#{userHead,jdbcType=VARCHAR},#{menuId,jdbcType=INTEGER},#{content,jdbcType=VARCHAR},#{discussTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <!--查询点赞前 3 菜谱-->
+  <select id="selectLikenum" resultType="com.vegetable.entity.MenuEntity">
+    SELECT A.*,B.discussNum
+    FROM
+    (
+    SELECT m.*,COUNT( c.menu_id ) collectionNum
+    FROM menu m
+    LEFT JOIN collection c ON m.m_id = c.menu_id
+    GROUP BY m.m_id
+    ) A
+    LEFT JOIN (
+    SELECT m.m_id,COUNT( d.menu_id ) discussNum
+    FROM menu m
+    LEFT JOIN discuss d ON m.m_id = d.menu_id
+    GROUP BY m.m_id
+    ) B ON A.m_id = B.m_id
+    order by A.like_num desc
+    limit 3
   </select>
 
 </mapper>

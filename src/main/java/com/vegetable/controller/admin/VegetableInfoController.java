@@ -2,6 +2,7 @@ package com.vegetable.controller.admin;
 
 import com.github.pagehelper.PageInfo;
 import com.vegetable.common.Result;
+import com.vegetable.entity.TypeEntity;
 import com.vegetable.entity.VegetableInfoEntity;
 import com.vegetable.service.VegetableInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,11 @@ public class VegetableInfoController {
         return Result.error("修改蔬菜信息失败！");
     }
 
+    /**
+     * 查询蔬菜信息
+     * @param vegetableInfoEntity 蔬菜实体
+     * @return
+     */
     @GetMapping(value = "/selectVegetable")
     public Result selectVegetable(VegetableInfoEntity vegetableInfoEntity){
         try{
@@ -105,6 +111,21 @@ public class VegetableInfoController {
             e.printStackTrace();
         }
         return Result.error("没有查询到满足条件的蔬菜信息");
+    }
+
+    /**
+     * 查询类别
+     * @return
+     */
+    @GetMapping("/selectType")
+    public Result selectType(){
+        List<TypeEntity> list = vegetableInfoService.selectType();
+        if (list.size() > 0 && list != null){
+            Map<String,Object> map = new HashMap<>();
+            map.put("typeList",list);
+            return Result.ok(map);
+        }
+        return Result.error();
     }
 
 }

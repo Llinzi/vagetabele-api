@@ -1,6 +1,8 @@
 package com.vegetable.service;
 
 import com.github.pagehelper.PageInfo;
+import com.vegetable.entity.CollectionEntity;
+import com.vegetable.entity.DiscussEntity;
 import com.vegetable.entity.MenuEntity;
 import com.vegetable.entity.StepsEntity;
 
@@ -62,4 +64,48 @@ public interface MenuService{
      * @return 成功返回菜谱步骤
      */
     StepsEntity selectStepsByMId(Integer mId);
+
+    /**
+     * 收藏、点赞、评论数量加一
+     * @param mId 菜谱id
+     * @param type 收藏：1 ;点赞：2；评论：3
+     * @return
+     */
+    int updateMenuNum(Integer mId, Integer type);
+
+    /**
+     * 添加收藏信息
+     * @param collectionEntity 收藏实体
+     * @return
+     */
+    int insertCollection(CollectionEntity collectionEntity);
+
+    /**
+     * 通过用户 id 和 菜谱 id 查询用户是否收藏过该菜谱
+     * @param userId 用户 id
+     * @param mId 菜谱 id
+     * @return
+     */
+    CollectionEntity selectCollection(Integer userId ,Integer mId);
+
+    /**
+     * 根据菜谱 id 查询菜谱
+     * @param discussEntity 评论实体
+     * @return
+     */
+    PageInfo<DiscussEntity> selectDiscussEntity(DiscussEntity discussEntity);
+
+    /**
+     * 添加评论
+     * @param discussEntity 评论实体
+     * @return
+     */
+    int insertDiscuss(DiscussEntity discussEntity);
+
+    /**
+     * 查询点赞最多的 3 个菜谱
+     * @return
+     */
+    List<MenuEntity> selectLikenum();
+
 }

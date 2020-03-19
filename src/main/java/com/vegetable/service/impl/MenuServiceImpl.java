@@ -1,7 +1,10 @@
 package com.vegetable.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.vegetable.entity.CollectionEntity;
+import com.vegetable.entity.DiscussEntity;
 import com.vegetable.entity.MenuEntity;
 import com.vegetable.entity.StepsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import javax.annotation.Resource;
 import com.vegetable.mapper.MenuMapper;
 import com.vegetable.service.MenuService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,5 +63,39 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public StepsEntity selectStepsByMId(Integer mId) {
         return menuMapper.selectStepsByMId(mId);
+    }
+
+    @Override
+    public int updateMenuNum(Integer mId ,Integer type) {
+        return menuMapper.updateMenuNum(mId,type);
+    }
+
+    @Override
+    public int insertCollection(CollectionEntity collectionEntity) {
+        collectionEntity.setCreateTime(new Date());
+        return menuMapper.insertCollection(collectionEntity);
+    }
+
+    @Override
+    public CollectionEntity selectCollection(Integer userId, Integer mId) {
+        return menuMapper.selectCollection(userId,mId);
+    }
+
+    @Override
+    public PageInfo<DiscussEntity> selectDiscussEntity(DiscussEntity discussEntity) {
+        PageHelper.startPage(discussEntity.getCurrentPage(),discussEntity.getPageSize());
+        List<DiscussEntity> list = menuMapper.selectDiscuss(discussEntity.getMenuId());
+        return new PageInfo<>(list);
+    }
+
+    @Override
+    public int insertDiscuss(DiscussEntity discussEntity) {
+        discussEntity.setDiscussTime(new Date());
+        return menuMapper.insertDiscuss(discussEntity);
+    }
+
+    @Override
+    public List<MenuEntity> selectLikenum() {
+        return menuMapper.selectLikenum();
     }
 }

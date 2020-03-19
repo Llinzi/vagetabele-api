@@ -106,6 +106,11 @@ public class VegetableInfoEntity implements Serializable {
     private String image;
 
     /**
+     * 类别名称
+     */
+    private String typeName;
+
+    /**
      * 当前页
      */
     private Integer  currentPage;

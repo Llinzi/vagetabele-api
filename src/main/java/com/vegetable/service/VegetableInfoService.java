@@ -1,7 +1,10 @@
 package com.vegetable.service;
 
 import com.github.pagehelper.PageInfo;
+import com.vegetable.entity.TypeEntity;
 import com.vegetable.entity.VegetableInfoEntity;
+
+import java.util.List;
 
 /**
 * @ClassName : VegetableInfoService
@@ -38,5 +41,24 @@ public interface VegetableInfoService{
      * @return 成功返回满足条件的分页信息
      */
     PageInfo<VegetableInfoEntity> selectVegetable(VegetableInfoEntity vegetableInfoEntity);
+
+    /**
+     * 查询类别
+     * @return
+     */
+    List<TypeEntity> selectType();
+
+    /**
+     * 根据蔬菜类别查询相同类别的蔬菜
+     * @param typeId 类别 id
+     * @return
+     */
+    List<VegetableInfoEntity> selectByTypeId(Integer typeId);
+
+    /**
+     * 随机推荐 10条数据
+     * @return
+     */
+    List<VegetableInfoEntity> selectRand();
 
 }
