@@ -70,17 +70,14 @@ public class MenuController {
             if (steps > 0){
                 //得到步骤表的自增长id
                 Integer stepId = menuModel.getStepsEntity().getStepId();
-                System.out.println("步骤id为"+stepId);
                 //设置菜谱表的步骤id，然后添加菜谱
                 menuModel.getMenuEntity().setStepId(stepId);
                 int menu = menuService.insertMenu(menuModel.getMenuEntity());
                 //获取菜谱表的自增长id，然后修改步骤表的菜谱id
                 Integer mId = menuModel.getMenuEntity().getMId();
-                System.out.println("菜谱id为"+mId);
                 menuModel.getStepsEntity().setmId(mId);
                 menuModel.getStepsEntity().setStepId(stepId);
                 int updateSteps = menuService.updateSteps(menuModel.getStepsEntity());
-                System.out.println("添加成功");
                 return Result.ok("添加成功");
             }
         }catch (Exception e){

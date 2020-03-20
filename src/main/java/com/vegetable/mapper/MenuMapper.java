@@ -87,4 +87,18 @@ public interface MenuMapper extends Mapper<MenuEntity> {
      */
     List<MenuEntity> selectLikenum();
 
+    /**
+     * 查询用户收藏的菜谱
+     * @param userId
+     * @return
+     */
+    List<MenuEntity> selectCollectionByUserId(Integer userId);
+
+    /**
+     * 删除收藏菜谱
+     * @param collectionId 收藏 id
+     * @return
+     */
+    int deleteCollection(Integer collectionId);
+
 }

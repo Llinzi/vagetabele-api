@@ -37,7 +37,6 @@ public class MenuEntity implements Serializable {
     /**
      * 发表用户名称
      */
-    @Column(name = "user_name")
     private String userName;
 
     /**
@@ -102,6 +101,11 @@ public class MenuEntity implements Serializable {
      * 每页显示条数
      */
     private Integer pageSize;
+
+    /**
+     * 收藏 id
+     */
+    private Integer collectionId;
 
     private static final long serialVersionUID = 1L;
 }

@@ -108,4 +108,17 @@ public interface MenuService{
      */
     List<MenuEntity> selectLikenum();
 
+    /**
+     * 查询用户收藏的菜谱
+     * @menuEntity 菜谱实体
+     * @return
+     */
+    PageInfo<MenuEntity> selectCollectionByUserId(MenuEntity menuEntity);
+
+    /**
+     * 删除收藏菜谱
+     * @param collectionId 收藏 id
+     * @return
+     */
+    int deleteCollection(Integer collectionId);
 }

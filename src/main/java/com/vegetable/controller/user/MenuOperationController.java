@@ -151,4 +151,48 @@ public class MenuOperationController {
         return Result.error();
     }
 
+    /**
+     *查询用户收藏的菜谱
+     * @menuEntity 菜谱实体
+     * @return
+     */
+    @GetMapping(value = "/selectCollectionByUserId")
+    public Result selectCollectionByUserId(MenuEntity menuEntity){
+        try{
+            PageInfo<MenuEntity> pageInfo = menuService.selectCollectionByUserId(menuEntity);
+            List<MenuEntity> list = pageInfo.getList();
+            if (list.size() > 0 && list !=null){
+                Map<String,Object> map = new HashMap<>();
+                map.put("dataList",list);
+                //总页数
+                map.put("pages",pageInfo.getPages());
+                //当前页
+                map.put("pageNum",pageInfo.getPageNum());
+                //总条数
+                map.put("total",pageInfo.getTotal());
+                return Result.ok(map);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.error("您还没有收藏任何菜谱哦!");
+    }
+
+    /**
+     * 删除收藏菜谱
+     * @param collectionId 收藏 id
+     * @return
+     */
+    @PostMapping(value = "/deleteCollection")
+    public Result deleteCollection(Integer collectionId){
+        try{
+            int i = menuService.deleteCollection(collectionId);
+            if ( i > 0){
+                return Result.ok();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.error();
+    }
 }

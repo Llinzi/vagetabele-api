@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.vegetable.mapper.MenuMapper;
 import com.vegetable.service.MenuService;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Date;
 import java.util.List;
@@ -37,6 +39,8 @@ public class MenuServiceImpl implements MenuService{
 
     @Override
     public int insertMenu(MenuEntity menuEntity) {
+        menuEntity.setCreateTime(new Date());
+        menuEntity.setLikeNum(0);
         return menuMapper.insertSelective(menuEntity);
     }
 
@@ -51,8 +55,14 @@ public class MenuServiceImpl implements MenuService{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int insertSteps(StepsEntity stepsEntity) {
-        return menuMapper.insertSteps(stepsEntity);
+        try {
+            return menuMapper.insertSteps(stepsEntity);
+        }catch (Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return 0;
     }
 
     @Override
@@ -98,4 +108,17 @@ public class MenuServiceImpl implements MenuService{
     public List<MenuEntity> selectLikenum() {
         return menuMapper.selectLikenum();
     }
+
+    @Override
+    public PageInfo<MenuEntity> selectCollectionByUserId(MenuEntity menuEntity) {
+        PageHelper.startPage(menuEntity.getCurrentPage(),menuEntity.getPageSize());
+        List<MenuEntity> list = menuMapper.selectCollectionByUserId(menuEntity.getUserId());
+        return new PageInfo<>(list);
+    }
+
+    @Override
+    public int deleteCollection(Integer collectionId) {
+        return menuMapper.deleteCollection(collectionId);
+    }
+
 }
