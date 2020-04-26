@@ -78,7 +78,7 @@ public class MenuController {
                 menuModel.getStepsEntity().setmId(mId);
                 menuModel.getStepsEntity().setStepId(stepId);
                 int updateSteps = menuService.updateSteps(menuModel.getStepsEntity());
-                return Result.ok("添加成功");
+                return Result.ok("菜谱添加成功，请耐心等待管理员审核！");
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -104,6 +104,24 @@ public class MenuController {
             e.printStackTrace();
         }
         return Result.error("没有查询到改菜谱步骤!");
+    }
+
+    /**
+     * 修改菜谱
+     * @param menuEntity
+     * @return
+     */
+    @PostMapping(value = "/updateMenu")
+    public Result updateMenu(@RequestBody MenuEntity menuEntity){
+        try {
+            int i = menuService.updateMenu(menuEntity);
+            if (i > 0){
+                return Result.ok("修改成功");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.error("修改失败");
     }
 
 }

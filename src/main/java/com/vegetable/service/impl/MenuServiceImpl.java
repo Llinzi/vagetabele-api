@@ -41,6 +41,7 @@ public class MenuServiceImpl implements MenuService{
     public int insertMenu(MenuEntity menuEntity) {
         menuEntity.setCreateTime(new Date());
         menuEntity.setLikeNum(0);
+        menuEntity.setStatus(0);
         return menuMapper.insertSelective(menuEntity);
     }
 

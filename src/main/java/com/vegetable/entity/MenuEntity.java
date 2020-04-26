@@ -81,6 +81,9 @@ public class MenuEntity implements Serializable {
     @Column(name = "like_num")
     private Integer likeNum;
 
+    @Column(name = "status")
+    private Integer status;
+
     /**
      * 收藏数量
      */

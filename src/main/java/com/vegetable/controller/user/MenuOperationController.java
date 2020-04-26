@@ -2,6 +2,7 @@ package com.vegetable.controller.user;
 
 import com.github.pagehelper.PageInfo;
 import com.vegetable.common.Result;
+import com.vegetable.common.SensitiveWordUtil;
 import com.vegetable.entity.CollectionEntity;
 import com.vegetable.entity.DiscussEntity;
 import com.vegetable.entity.MenuEntity;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @ClassName : MenuOperationController
@@ -121,6 +124,26 @@ public class MenuOperationController {
      */
     @PostMapping(value = "/insertDiscuss")
     public Result insertDiscuss(DiscussEntity discussEntity){
+        //初始化敏感词库
+        SensitiveWordUtil.init();
+        System.out.println("敏感词的数量：" + SensitiveWordUtil.sensitiveWordMap.size());
+        System.out.println("待检测语句字数：" + discussEntity.getContent().length());
+
+        //是否含有关键字
+        boolean result = SensitiveWordUtil.contains(discussEntity.getContent(), SensitiveWordUtil.MinMatchType);
+        System.out.println(result);
+
+        //获取语句中的敏感词
+        Set<String> set = SensitiveWordUtil.getSensitiveWord(discussEntity.getContent(), SensitiveWordUtil.MinMatchType);
+        System.out.println("语句中包含敏感词的个数为：" + set.size() + "。包含：" + set);
+
+        //替换语句中的敏感词
+        String filterStr = SensitiveWordUtil.replaceSensitiveWord(discussEntity.getContent(), '*', SensitiveWordUtil.MinMatchType);
+        System.out.println(filterStr);
+
+        String filterStr2 = SensitiveWordUtil.replaceSensitiveWord(discussEntity.getContent(), "[*敏感词*]", SensitiveWordUtil.MinMatchType);
+        System.out.println(filterStr2);
+        discussEntity.setContent(filterStr);
         try {
             int i = menuService.insertDiscuss(discussEntity);
             if (i > 0){
@@ -195,4 +218,5 @@ public class MenuOperationController {
         }
         return Result.error();
     }
+
 }

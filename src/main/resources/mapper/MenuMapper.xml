@@ -14,10 +14,11 @@
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="create_time" jdbcType="DATE" property="createTime" />
     <result column="like_num" jdbcType="INTEGER" property="likeNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated generated on Fri Jan 31 14:27:02 CST 2020.-->
-    m_id, m_name, user_id, step_id, food_material, `level`, `time`, image, create_time,like_num
+    m_id, m_name, user_id, step_id, food_material, `level`, `time`, image, create_time,like_num,status
   </sql>
 
   <!--菜谱查询-->
@@ -40,6 +41,12 @@
     <where>
         <if test="mName != null and mName != ''">
           m_name like concat('%',#{mName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="status != null">
+          and status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="userId != null">
+          and user_id = #{userId,jdbcType=INTEGER}
         </if>
     </where>
   </select>
@@ -110,8 +117,8 @@
 
   <!--添加评论-->
   <insert id="insertDiscuss" parameterType="com.vegetable.entity.DiscussEntity">
-    insert into discuss (user_id, user_name, user_head, menu_id, content, discuss_time)
-    value (#{userId,jdbcType=INTEGER},#{userName,jdbcType=VARCHAR},#{userHead,jdbcType=VARCHAR},#{menuId,jdbcType=INTEGER},#{content,jdbcType=VARCHAR},#{discussTime,jdbcType=TIMESTAMP})
+    insert into discuss (user_id, menu_id, content, discuss_time)
+    value (#{userId,jdbcType=INTEGER},#{menuId,jdbcType=INTEGER},#{content,jdbcType=VARCHAR},#{discussTime,jdbcType=TIMESTAMP})
   </insert>
 
   <!--查询点赞前 3 菜谱-->
