@@ -25,6 +25,12 @@ public class Result extends HashMap<String, Object> {
         return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg);
     }
 
+    /**
+     * 返回错误信息
+     * @param code 状态码
+     * @param msg 错误信息
+     * @return
+     */
     public static Result error(int code, String msg) {
         Result r = new Result();
         r.put("code", code);
@@ -32,12 +38,22 @@ public class Result extends HashMap<String, Object> {
         return r;
     }
 
+    /**
+     * 返回正确信息
+     * @param msg
+     * @return
+     */
     public static Result ok(String msg) {
         Result r = new Result();
         r.put("msg", msg);
         return r;
     }
 
+    /**
+     * 返回正确信息
+     * @param map
+     * @return
+     */
     public static Result ok(Map<String, Object> map) {
         Result r = new Result();
         r.putAll(map);

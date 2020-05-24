@@ -14,7 +14,7 @@ import java.io.IOException;
 
 /**
  * @ClassName : SubMailUtils
- * @Description : 短信工具类(赛邮)
+     * @Description : 短信工具类(`赛邮`)
  * @Author : 袁田婷
  * @Date: 2020-03-02 14:39
  */
@@ -37,7 +37,7 @@ public class SubMailUtils {
 
 
     /**
-     * 发送一天短信
+     * 发送一条短信
      * @param to 发送人电话
      * @param project 发送的模板
      * @param vars 模板内的变量(code:验证码; time:过期时间)

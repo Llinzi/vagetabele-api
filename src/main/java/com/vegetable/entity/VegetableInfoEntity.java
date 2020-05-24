@@ -108,6 +108,7 @@ public class VegetableInfoEntity implements Serializable {
     /**
      * 类别名称
      */
+    @Transient
     private String typeName;
 
     /**
